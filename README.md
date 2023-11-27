@@ -1,1 +1,1 @@
-# usa_token_tax
+# USA Token
