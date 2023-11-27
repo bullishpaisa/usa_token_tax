@@ -232,11 +232,13 @@ contract USAToken is IUSAToken, ERC20Permit, Ownable {
     }
 
     function setTaxFeeOnBuy(uint256 _taxFeeOnBuy) external onlyOwner {
+        require(_taxFeeOnBuy <= 5 * 1e7, "USAToken: Tax fee on buy must be less than 50%");
         taxFeeOnBuy = _taxFeeOnBuy;
         emit TaxFeeOnBuyChanged(_taxFeeOnBuy);
     }
 
     function setTaxFeeOnSell(uint256 _taxFeeOnSell) external onlyOwner {
+        require(_taxFeeOnSell <= 5 * 1e7, "USAToken: Tax fee on sell must be less than 50%");
         taxFeeOnSell = _taxFeeOnSell;
         emit TaxFeeOnSellChanged(_taxFeeOnSell);
     }
