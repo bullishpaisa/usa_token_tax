@@ -80,11 +80,12 @@ contract USAToken is IUSAToken, ERC20Permit, Ownable {
         require(_to != address(0), "USAToken: Transfer _to the zero address");
         require(_amount > 0, "USAToken:  Amount must be greater than zero");
 
-        require(!_isBlacklisted[sender] && !_isBlacklisted[recipient], "Blacklisted address");
+        require(!_isBlacklisted[_from], "USAToken:  Blacklisted address");
+        require(!_isBlacklisted[_to], "USAToken:  Blacklisted address");
 
         if (registeredSwapContract[_to] && swapToEthOnSell) {
             // only swap the collected tokens to ETH if the recipient is the swap contract (so if the user is selling)
-            _distributeAndLiquify(_from, _to);
+            _distributeAndLiquify();
         }
 
         //indicates if fee should be deducted from transfer
@@ -156,7 +157,7 @@ contract USAToken is IUSAToken, ERC20Permit, Ownable {
         }
     }
 
-    function _distributeAndLiquify(address _from, address _to) private {
+    function _distributeAndLiquify() private {
         uint256 contractTokenBalance_ = balanceOf(address(this));
 
         if (contractTokenBalance_ >= minSwapAmount && !swapping) {

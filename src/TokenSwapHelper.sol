@@ -22,7 +22,7 @@ contract TokenSwapHelper {
         recipient = _recipient;
     }
 
-    function swapTokenForETH(uint256 amountIn, uint256 amountOutMin) external {
+    function swapTokenForETH(uint256 amountIn, uint256) external {
         require(msg.sender == address(swapTokenAddress), "TokenSwapHelper: Only the token can call this function");
         address[] memory path = new address[](2);
         path[0] = address(swapTokenAddress);
