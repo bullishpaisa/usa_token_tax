@@ -15,4 +15,5 @@ interface IUSAToken {
     event SwapHelperChanged(address _swapRouter);
     event RegisteredSwapContract(address indexed _swapContract, bool _setting);
     event PoolFeeChanged(uint24 _poolFee);
+    event BlacklistAddress(address indexed account, bool value);
 }

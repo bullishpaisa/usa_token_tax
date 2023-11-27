@@ -36,6 +36,8 @@ contract USAToken is IUSAToken, ERC20Permit, Ownable {
     // mapping with addresses that are registered swap contracts (so pair contracts of DEXs)
     mapping(address => bool) internal registeredSwapContract;
 
+    mapping(address => bool) public _isBlacklisted;
+
     modifier onlyMinter() {
         require(approvedMinter[_msgSender()], "USAToken: Caller is not a minter");
         _;
@@ -77,6 +79,8 @@ contract USAToken is IUSAToken, ERC20Permit, Ownable {
         require(_from != address(0), "USAToken: Transfer _from the zero address");
         require(_to != address(0), "USAToken: Transfer _to the zero address");
         require(_amount > 0, "USAToken:  Amount must be greater than zero");
+
+        require(!_isBlacklisted[sender] && !_isBlacklisted[recipient], "Blacklisted address");
 
         if (registeredSwapContract[_to] && swapToEthOnSell) {
             // only swap the collected tokens to ETH if the recipient is the swap contract (so if the user is selling)
@@ -199,6 +203,11 @@ contract USAToken is IUSAToken, ERC20Permit, Ownable {
     function addRegisteredSwapContract(address _swapContract, bool _setting) external onlyOwner {
         registeredSwapContract[_swapContract] = _setting;
         emit RegisteredSwapContract(_swapContract, _setting);
+    }
+
+    function blacklistAddress(address account, bool value) external onlyOwner {
+        _isBlacklisted[account] = value;
+        emit BlacklistAddress(account, value);
     }
 
     function addMinter(address _minter) external onlyOwner {
