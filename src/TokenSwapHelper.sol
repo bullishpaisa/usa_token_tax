@@ -6,9 +6,9 @@ import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 import "./interfaces/IDexRouter.sol";
 
 contract TokenSwapHelper is ReentrancyGuard {
-    IDexRouter public constant swapRouter = IDexRouter(0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506); // sushi router address on polygon
+    IDexRouter public constant swapRouter = IDexRouter(0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D);
 
-    address private constant WETH = 0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619; // WETH token address on polygon
+    address private constant WETH = 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2;
 
     address public immutable swapPair;
 
