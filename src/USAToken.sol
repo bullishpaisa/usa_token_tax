@@ -11,6 +11,9 @@ contract USAToken is IUSAToken, ERC20Permit, Ownable {
 
     uint256 public taxFeeOnSell = 0;
 
+    // max supply of the token (50 million)
+    uint256 public maxSupply = 50 * 1e6 * 1e18;
+
     uint256 public minSwapAmount = 1e18;
 
     bool public swapToEthOnSell = false;
@@ -181,6 +184,7 @@ contract USAToken is IUSAToken, ERC20Permit, Ownable {
     // Minting and burning functions
 
     function mint(address _to, uint256 _amount) external onlyMinter {
+        // require(totalSupply() + _amount <= maxSupply, "USAToken: Max supply reached");
         _mint(_to, _amount);
     }
 
